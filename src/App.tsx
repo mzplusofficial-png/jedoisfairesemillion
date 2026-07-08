@@ -420,6 +420,13 @@ export default function App() {
       eventValue: 1
     }).catch((err) => console.error("Error tracking video event click:", err));
     
+    apiClient.recordClick({
+      email: "visitor@chariow.shop",
+      phone: "Visitor",
+      source: "btn_hero_watch_video",
+      visitorId
+    }).catch(() => {});
+
     apiClient.recordVideoClick({ source: "watch_video_cta" }).catch(() => {});
     
     // Give a brief moment for layout/render updates, then scroll with high precision
@@ -538,27 +545,35 @@ export default function App() {
   };
 
   // Open registration redirect directly
-  const openRegistrationModal = () => {
+  const openRegistrationModal = async (sourceButton: string = "direct_checkout_cta") => {
     const targetUrl = "https://mzplus.mychariow.shop/prd_knd1e076";
     const visitorId = getOrCreateVisitorId();
     
     // Log the click event to our database for admin analytics
-    apiClient.recordLead({
-      name: "Redirection Directe",
-      email: "direct_checkout@chariow.shop",
-      phone: "Direct",
-      country: selectedCountry.name,
-      countryCode: selectedCountry.flag,
-      visitorId
-    }).catch((err) => console.error("Failed to log redirect click:", err));
+    try {
+      await apiClient.recordLead({
+        name: "Redirection Directe",
+        email: "direct_checkout@chariow.shop",
+        phone: "Direct",
+        country: selectedCountry.name,
+        countryCode: selectedCountry.flag,
+        visitorId
+      });
+    } catch (err) {
+      console.error("Failed to log redirect click:", err);
+    }
 
     // Track checkout click event
-    apiClient.recordClick({
-      email: "direct_checkout@chariow.shop",
-      phone: "Direct",
-      source: "direct_checkout_cta",
-      visitorId
-    }).catch(() => {});
+    try {
+      await apiClient.recordClick({
+        email: "direct_checkout@chariow.shop",
+        phone: "Direct",
+        source: sourceButton,
+        visitorId
+      });
+    } catch (err) {
+      console.error("Failed to log direct checkout click:", err);
+    }
 
     try {
       window.location.href = targetUrl;
@@ -964,6 +979,13 @@ export default function App() {
                     eventType: "play_video",
                     eventValue: 1
                   }).catch(() => {});
+
+                  apiClient.recordClick({
+                    email: "visitor@chariow.shop",
+                    phone: "Visitor",
+                    source: "btn_player_play_video",
+                    visitorId
+                  }).catch(() => {});
                 }}
                 onProgress={(percent) => {
                   const visitorId = getOrCreateVisitorId();
@@ -1061,32 +1083,32 @@ export default function App() {
 
           <div className="space-y-3.5 mb-6 text-left">
             {/* Benefit 1 */}
-            <div className="flex items-center gap-2.5 group">
-              <span className="text-[#D4AF37] text-lg font-black shrink-0 animate-bounce">—</span>
+            <div className="flex items-start gap-2.5 group">
+              <Check className="w-4.5 h-4.5 text-[#D4AF37] shrink-0 mt-0.5" />
               <p className="text-xs sm:text-sm font-extrabold text-white leading-tight group-hover:text-amber-300 transition-colors">
                 Accès à des formations complètes qui vous permettront de gagner de l'argent 💸
               </p>
             </div>
 
             {/* Benefit 2 */}
-            <div className="flex items-center gap-2.5 group">
-              <span className="text-[#D4AF37] text-lg font-black shrink-0 animate-bounce">—</span>
+            <div className="flex items-start gap-2.5 group">
+              <Check className="w-4.5 h-4.5 text-[#D4AF37] shrink-0 mt-0.5" />
               <p className="text-xs sm:text-sm font-extrabold text-white leading-tight group-hover:text-amber-300 transition-colors">
                 On t'accompagne étape par étape jusqu'à ta réussite ! 🤝❤️
               </p>
             </div>
 
             {/* Benefit 3 */}
-            <div className="flex items-center gap-2.5 group">
-              <span className="text-[#D4AF37] text-lg font-black shrink-0 animate-bounce">—</span>
+            <div className="flex items-start gap-2.5 group">
+              <Check className="w-4.5 h-4.5 text-[#D4AF37] shrink-0 mt-0.5" />
               <p className="text-xs sm:text-sm font-extrabold text-white leading-tight group-hover:text-amber-300 transition-colors">
                 Vous pourrez générer des revenus et recevoir vos gains dès votre inscription ! ⚡💰
               </p>
             </div>
 
             {/* Benefit 4 */}
-            <div className="flex items-center gap-2.5 group">
-              <span className="text-[#D4AF37] text-lg font-black shrink-0 animate-bounce">—</span>
+            <div className="flex items-start gap-2.5 group">
+              <Check className="w-4.5 h-4.5 text-[#D4AF37] shrink-0 mt-0.5" />
               <p className="text-xs sm:text-sm font-extrabold text-white leading-tight group-hover:text-amber-300 transition-colors">
                 Vous avez droit à des récompenses mensuelles 🎁🏆
               </p>
@@ -1096,7 +1118,7 @@ export default function App() {
           {/* Emotional High-converting Bottom CTA inside the benefit box */}
           <div className="border-t border-white/5 pt-5 text-center flex flex-col items-center">
             <motion.button
-              onClick={openRegistrationModal}
+              onClick={() => openRegistrationModal("btn_cta_benefits_signup")}
               initial={{ scale: 1 }}
               animate={{ 
                 scale: [1, 1.04, 1],
@@ -1364,7 +1386,7 @@ export default function App() {
 
           {/* Primary CTA Button with price embedded inside for high conversion */}
           <motion.button
-            onClick={openRegistrationModal}
+            onClick={() => openRegistrationModal("btn_cta_pricing_signup")}
             initial={{ scale: 1 }}
             animate={{ scale: [1, 1.04, 1], boxShadow: ["0 4px 20px rgba(242,125,38,0.25)", "0 4px 35px rgba(242,125,38,0.6)", "0 4px 20px rgba(242,125,38,0.25)"] }}
             transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
@@ -1466,7 +1488,7 @@ export default function App() {
           </p>
 
           <motion.button
-            onClick={openRegistrationModal}
+            onClick={() => openRegistrationModal("btn_cta_faq_signup")}
             initial={{ scale: 1 }}
             animate={{ 
               scale: [1, 1.03, 1],
@@ -1761,6 +1783,18 @@ export default function App() {
                       )}`}
                       target="_blank"
                       rel="noreferrer"
+                      onClick={async () => {
+                        try {
+                          await apiClient.recordClick({
+                            email: email || "anonymous@chariow.shop",
+                            phone: phone || "Anonymous",
+                            source: "btn_modal_whatsapp_support",
+                            visitorId: getOrCreateVisitorId()
+                          });
+                        } catch (err) {
+                          console.error("Failed to track WhatsApp click:", err);
+                        }
+                      }}
                       className="group w-full bg-white/[0.03] border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500 hover:text-emerald-400 text-gray-300 font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer"
                     >
                       <span className="text-sm">💬</span>

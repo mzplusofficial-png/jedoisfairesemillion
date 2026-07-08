@@ -101,6 +101,14 @@ interface AdminStats {
     directCheckoutClicks: number;
     formSubmissions: number;
     modalCheckoutClicks: number;
+    // 7 main interactive buttons
+    btn_hero_watch_video?: number;
+    btn_player_play_video?: number;
+    btn_cta_benefits_signup?: number;
+    btn_cta_pricing_signup?: number;
+    btn_cta_faq_signup?: number;
+    landing_modal_checkout_cta?: number;
+    btn_modal_whatsapp_support?: number;
   };
 }
 
@@ -618,87 +626,99 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
                 
                 {/* Left side: Specific CTA counters */}
                 <div className="lg:col-span-2 space-y-4">
-                  <h4 className="text-[11px] font-extrabold uppercase tracking-widest text-gray-400">
-                    Nombre de clics par bouton d'appel à l'action (CTA)
-                  </h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    
-                    {/* CTA 1: Regarder la Vidéo */}
-                    <div className="bg-zinc-900/40 border border-white/5 p-4 rounded-xl flex items-start gap-3">
-                      <div className="p-2 bg-cyan-500/10 text-cyan-400 rounded-lg">
-                        <Play className="w-5 h-5" />
-                      </div>
-                      <div className="space-y-1 flex-1">
-                        <p className="text-xs font-bold text-gray-300">Bouton "Regarder la Vidéo"</p>
-                        <p className="text-[10px] text-gray-500 font-light">
-                          Déclenchements de la vidéo d'explication.
-                        </p>
-                        <div className="flex items-baseline gap-1.5 pt-1">
-                          <span className="text-lg font-black text-white">
-                            {stats.ctaBreakdown?.watchVideoClicks ?? stats.ctaPerf?.watchVideoClicks ?? 0}
-                          </span>
-                          <span className="text-[9px] text-gray-500 font-bold uppercase">clics</span>
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-[11px] font-extrabold uppercase tracking-widest text-gray-400">
+                      Analyse de Performance des 7 Boutons de la Plateforme
+                    </h4>
+                    <span className="text-[9px] bg-[#D4AF37]/10 text-[#D4AF37] px-2 py-0.5 rounded-full border border-[#D4AF37]/20 font-mono">
+                      7 Éléments Actifs
+                    </span>
+                  </div>
+
+                  <div className="space-y-3">
+                    {[
+                      {
+                        name: 'Bouton Héros - "Regarder la vidéo"',
+                        id: 'btn_hero_watch_video',
+                        desc: "Premier bouton d'appel à l'action pour visionner la vidéo.",
+                        clicks: stats.ctaBreakdown?.btn_hero_watch_video ?? stats.ctaPerf?.btn_hero_watch_video ?? stats.ctaBreakdown?.watchVideoClicks ?? 0,
+                        loc: "En-tête (Hero Section)",
+                        dotColor: "bg-cyan-400"
+                      },
+                      {
+                        name: 'Lecteur Vidéo - "Regarder la présentation"',
+                        id: 'btn_player_play_video',
+                        desc: "Clics de lecture sur le lecteur vidéo interactif.",
+                        clicks: stats.ctaBreakdown?.btn_player_play_video ?? stats.ctaPerf?.btn_player_play_video ?? stats.ctaPerf?.videoPlays ?? 0,
+                        loc: "Lecteur Multimédia",
+                        dotColor: "bg-purple-400"
+                      },
+                      {
+                        name: 'Bouton Avantages - "S\'INSCRIRE MAINTENANT ⚡"',
+                        id: 'btn_cta_benefits_signup',
+                        desc: "Premier bouton d'action sous la boîte d'avantages.",
+                        clicks: stats.ctaBreakdown?.btn_cta_benefits_signup ?? stats.ctaPerf?.btn_cta_benefits_signup ?? 0,
+                        loc: "Section Avantages (Milieu)",
+                        dotColor: "bg-amber-400"
+                      },
+                      {
+                        name: 'Bouton Tarification - "S\'INSCRIRE & COMMENCER VIP"',
+                        id: 'btn_cta_pricing_signup',
+                        desc: "Deuxième bouton d'action sous le sélecteur dynamique de pays.",
+                        clicks: stats.ctaBreakdown?.btn_cta_pricing_signup ?? stats.ctaPerf?.btn_cta_pricing_signup ?? 0,
+                        loc: "Sélecteur de Pays (Tarification)",
+                        dotColor: "bg-orange-400"
+                      },
+                      {
+                        name: 'Bouton FAQ - "REJOINDRE MZ+ MAINTENANT & TOUT DE SUITE ⚡"',
+                        id: 'btn_cta_faq_signup',
+                        desc: "Troisième bouton d'action finale au bas de la page.",
+                        clicks: stats.ctaBreakdown?.btn_cta_faq_signup ?? stats.ctaPerf?.btn_cta_faq_signup ?? 0,
+                        loc: "Foire Aux Questions (Bas)",
+                        dotColor: "bg-yellow-400"
+                      },
+                      {
+                        name: 'Bouton Paiement - "PROCÉDER AU PAIEMENT SÉCURISÉ"',
+                        id: 'landing_modal_checkout_cta',
+                        desc: "Clics de redirection finale vers la passerelle de paiement sécurisé.",
+                        clicks: stats.ctaBreakdown?.landing_modal_checkout_cta ?? stats.ctaPerf?.landing_modal_checkout_cta ?? stats.ctaBreakdown?.modalCheckoutClicks ?? 0,
+                        loc: "Modal d'Inscription (Validation)",
+                        dotColor: "bg-emerald-400"
+                      },
+                      {
+                        name: 'Lien d\'Assistance - "Contacter le Support WhatsApp VIP"',
+                        id: 'btn_modal_whatsapp_support',
+                        desc: "Redirection d'assistance directe vers le support VIP sur WhatsApp.",
+                        clicks: stats.ctaBreakdown?.btn_modal_whatsapp_support ?? stats.ctaPerf?.btn_modal_whatsapp_support ?? 0,
+                        loc: "Modal d'Inscription (Support)",
+                        dotColor: "bg-teal-400"
+                      }
+                    ].map((btn) => (
+                      <div 
+                        key={btn.id} 
+                        className="bg-zinc-900/40 border border-white/5 hover:border-white/10 p-3.5 rounded-2xl flex items-center justify-between gap-4 transition-all duration-300 group"
+                      >
+                        <div className="flex items-center gap-3 min-w-0">
+                          <span className={`w-2.5 h-2.5 rounded-full ${btn.dotColor} shrink-0 shadow-sm animate-pulse`} />
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <p className="text-xs font-black text-gray-200 tracking-wide">{btn.name}</p>
+                              <span className="text-[8px] bg-white/[0.04] border border-white/10 text-gray-400 px-2 py-0.5 rounded-md font-mono shrink-0">
+                                {btn.loc}
+                              </span>
+                            </div>
+                            <p className="text-[10px] text-gray-500 font-light mt-0.5 line-clamp-1">{btn.desc}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 shrink-0">
+                          <div className="bg-white/[0.02] border border-white/5 px-3.5 py-1.5 rounded-xl text-right min-w-[70px]">
+                            <span className="text-sm font-black text-white block leading-none">{btn.clicks}</span>
+                            <span className="text-[8px] text-gray-500 font-bold uppercase tracking-wider block mt-0.5">clics</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-
-                    {/* CTA 2: Accès Direct */}
-                    <div className="bg-zinc-900/40 border border-white/5 p-4 rounded-xl flex items-start gap-3">
-                      <div className="p-2 bg-orange-500/10 text-orange-400 rounded-lg">
-                        <Link2 className="w-5 h-5" />
-                      </div>
-                      <div className="space-y-1 flex-1">
-                        <p className="text-xs font-bold text-gray-300">Bouton "Rejoindre MZ+" (Accès Direct)</p>
-                        <p className="text-[10px] text-gray-500 font-light">
-                          Redirections directes sans passer par le formulaire d'inscription.
-                        </p>
-                        <div className="flex items-baseline gap-1.5 pt-1">
-                          <span className="text-lg font-black text-white">
-                            {stats.ctaBreakdown?.directCheckoutClicks ?? stats.ctaPerf?.direct_checkout_cta ?? 0}
-                          </span>
-                          <span className="text-[9px] text-gray-500 font-bold uppercase">clics</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* CTA 3: Form Leads Submission */}
-                    <div className="bg-zinc-900/40 border border-white/5 p-4 rounded-xl flex items-start gap-3">
-                      <div className="p-2 bg-amber-500/10 text-amber-400 rounded-lg">
-                        <Users className="w-5 h-5" />
-                      </div>
-                      <div className="space-y-1 flex-1">
-                        <p className="text-xs font-bold text-gray-300">Inscriptions Formulaire</p>
-                        <p className="text-[10px] text-gray-500 font-light">
-                          Prospects ayant validé leur nom, email et téléphone.
-                        </p>
-                        <div className="flex items-baseline gap-1.5 pt-1">
-                          <span className="text-lg font-black text-white">
-                            {stats.ctaBreakdown?.formSubmissions ?? stats.ctaPerf?.formSubmissions ?? 0}
-                          </span>
-                          <span className="text-[9px] text-gray-500 font-bold uppercase">prospects</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* CTA 4: Modal Payment Checkouts */}
-                    <div className="bg-zinc-900/40 border border-white/5 p-4 rounded-xl flex items-start gap-3">
-                      <div className="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg">
-                        <Check className="w-5 h-5" />
-                      </div>
-                      <div className="space-y-1 flex-1">
-                        <p className="text-xs font-bold text-gray-300">Bouton "Paiement Sécurisé"</p>
-                        <p className="text-[10px] text-gray-500 font-light">
-                          Clics finaux sur le bouton de paiement sécurisé après formulaire.
-                        </p>
-                        <div className="flex items-baseline gap-1.5 pt-1">
-                          <span className="text-lg font-black text-white">
-                            {stats.ctaBreakdown?.modalCheckoutClicks ?? stats.ctaPerf?.landing_modal_checkout_cta ?? 0}
-                          </span>
-                          <span className="text-[9px] text-gray-500 font-bold uppercase">clics</span>
-                        </div>
-                      </div>
-                    </div>
-
+                    ))}
                   </div>
                 </div>
 

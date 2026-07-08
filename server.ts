@@ -615,7 +615,15 @@ async function startServer() {
         watchVideoClicks: watchVideoClicksCount,
         directCheckoutClicks: directCheckoutClicksCount,
         formSubmissions: formSubmissionsCount,
-        modalCheckoutClicks: modalCheckoutClicksCount
+        modalCheckoutClicks: modalCheckoutClicksCount,
+        // The 7 main interactive buttons
+        btn_hero_watch_video: clicks?.filter(c => c.source === "btn_hero_watch_video").length || clickWatchVideoEvents.length || 0,
+        btn_player_play_video: clicks?.filter(c => c.source === "btn_player_play_video").length || playVideoEvents.length || 0,
+        btn_cta_benefits_signup: clicks?.filter(c => c.source === "btn_cta_benefits_signup").length || 0,
+        btn_cta_pricing_signup: clicks?.filter(c => c.source === "btn_cta_pricing_signup").length || 0,
+        btn_cta_faq_signup: clicks?.filter(c => c.source === "btn_cta_faq_signup").length || 0,
+        landing_modal_checkout_cta: clicks?.filter(c => c.source === "landing_modal_checkout_cta").length || 0,
+        btn_modal_whatsapp_support: clicks?.filter(c => c.source === "btn_modal_whatsapp_support").length || 0
       };
 
       const ctaPerf = {
@@ -624,7 +632,14 @@ async function startServer() {
         joinMzClicks: joinMzClicks.length,
         formSubmissions: leads?.length || 0,
         direct_checkout_cta: directCheckoutClicksCount,
-        landing_modal_checkout_cta: modalCheckoutClicksCount
+        // The 7 main interactive buttons
+        btn_hero_watch_video: clicks?.filter(c => c.source === "btn_hero_watch_video").length || clickWatchVideoEvents.length || 0,
+        btn_player_play_video: clicks?.filter(c => c.source === "btn_player_play_video").length || playVideoEvents.length || 0,
+        btn_cta_benefits_signup: clicks?.filter(c => c.source === "btn_cta_benefits_signup").length || 0,
+        btn_cta_pricing_signup: clicks?.filter(c => c.source === "btn_cta_pricing_signup").length || 0,
+        btn_cta_faq_signup: clicks?.filter(c => c.source === "btn_cta_faq_signup").length || 0,
+        landing_modal_checkout_cta: clicks?.filter(c => c.source === "landing_modal_checkout_cta").length || 0,
+        btn_modal_whatsapp_support: clicks?.filter(c => c.source === "btn_modal_whatsapp_support").length || 0
       };
 
       // Clicks per day & today's clicks
@@ -790,7 +805,15 @@ async function startServer() {
         watchVideoClicks: watchVideoClicksCount,
         directCheckoutClicks: directCheckoutClicksCount,
         formSubmissions: formSubmissionsCount,
-        modalCheckoutClicks: modalCheckoutClicksCount
+        modalCheckoutClicks: modalCheckoutClicksCount,
+        // The 7 main interactive buttons (fallback JSON)
+        btn_hero_watch_video: db.clicks.filter((c: any) => c.source === "btn_hero_watch_video").length || watchVideoClicksCount || 0,
+        btn_player_play_video: db.clicks.filter((c: any) => c.source === "btn_player_play_video").length || 0,
+        btn_cta_benefits_signup: db.clicks.filter((c: any) => c.source === "btn_cta_benefits_signup").length || 0,
+        btn_cta_pricing_signup: db.clicks.filter((c: any) => c.source === "btn_cta_pricing_signup").length || 0,
+        btn_cta_faq_signup: db.clicks.filter((c: any) => c.source === "btn_cta_faq_signup").length || 0,
+        landing_modal_checkout_cta: db.clicks.filter((c: any) => c.source === "landing_modal_checkout_cta").length || 0,
+        btn_modal_whatsapp_support: db.clicks.filter((c: any) => c.source === "btn_modal_whatsapp_support").length || 0
       };
 
       // 3. Unique users redirected to registration page (fallback JSON)
