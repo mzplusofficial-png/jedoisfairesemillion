@@ -1094,38 +1094,38 @@ export default function App() {
           </div>
 
           {/* Emotional High-converting Bottom CTA inside the benefit box */}
-          <div className="border-t border-white/5 pt-5 text-center">
+          <div className="border-t border-white/5 pt-5 text-center flex flex-col items-center">
             <motion.button
               onClick={openRegistrationModal}
               initial={{ scale: 1 }}
               animate={{ 
-                scale: [1, 1.03, 1],
-                rotate: [0, -12, 10, -12, 10, -8, 8, -4, 4, 0, 0],
-                boxShadow: ["0 4px 20px rgba(212,175,55,0.25)", "0 4px 35px rgba(212,175,55,0.6)", "0 4px 20px rgba(212,175,55,0.25)"]
+                scale: [1, 1.04, 1],
+                boxShadow: [
+                  "0 4px 15px rgba(242,125,38,0.2)",
+                  "0 10px 30px rgba(242,125,38,0.5)",
+                  "0 4px 15px rgba(242,125,38,0.2)"
+                ]
               }}
               transition={{ 
                 repeat: Infinity, 
-                duration: 2.2, 
-                ease: "easeInOut",
-                times: [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 1]
+                duration: 2.0, 
+                ease: "easeInOut"
               }}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full py-3.5 bg-gradient-to-r from-yellow-400 via-[#D4AF37] to-amber-500 hover:brightness-110 text-black font-black text-xs sm:text-sm rounded-xl flex flex-col items-center justify-center gap-0.5 px-4 transition-all duration-300 font-display cursor-pointer"
+              className="w-full max-w-sm py-3.5 bg-gradient-to-r from-yellow-400 via-[#F27D26] to-amber-500 hover:brightness-110 text-black font-black text-xs sm:text-sm rounded-full flex items-center justify-center gap-2 px-6 transition-all duration-300 font-display cursor-pointer shadow-[0_4px_25px_rgba(242,125,38,0.35)]"
             >
-              <div className="flex items-center justify-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-black fill-black shrink-0 animate-pulse" />
-                <span className="tracking-wider uppercase font-black text-center text-xs sm:text-sm">
-                  JE M'INCRIS MAINTENANT & TOUT DÉBLOQUER ⚡
-                </span>
-                <ChevronRight className="w-3.5 h-3.5 text-black stroke-[3.5] shrink-0" />
-              </div>
-              <span className="text-[9px] opacity-90 font-bold tracking-wider uppercase">
-                TARIF SPÉCIAL UNIQUE : SEULEMENT {getPriceForCountry(selectedCountry.code).amount} {getPriceForCountry(selectedCountry.code).currency} À VIE · SANS ABONNEMENT
+              <Sparkles className="w-4 h-4 text-black fill-black shrink-0 animate-pulse" />
+              <span className="tracking-widest uppercase font-black text-center text-xs sm:text-sm">
+                S'INSCRIRE MAINTENANT ⚡
               </span>
+              <ChevronRight className="w-4 h-4 text-black stroke-[3.5] shrink-0" />
             </motion.button>
-            <p className="text-[8px] text-[#D4AF37] mt-2.5 font-bold animate-pulse uppercase tracking-wider">
-              🚀 PLACES LIMITÉES CE MOIS-CI · SÉCURISEZ VOTRE ACCÈS IMMÉDIAT !
+            <p className="text-[10px] text-[#D4AF37] mt-3 font-bold uppercase tracking-wider">
+              🎁 ACCÈS À VIE POUR SEULEMENT {getPriceForCountry(selectedCountry.code).amount} {getPriceForCountry(selectedCountry.code).currency}
+            </p>
+            <p className="text-[8px] text-gray-400 mt-1 uppercase tracking-wider">
+              🚀 PLACES LIMITÉES CE MOIS-CI · ACCÈS IMMÉDIAT SANS ABONNEMENT
             </p>
           </div>
         </motion.div>
