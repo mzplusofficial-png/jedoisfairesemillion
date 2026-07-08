@@ -213,12 +213,19 @@ export default function AdminPanel({ onBackToHome }: AdminPanelProps) {
     }
   };
 
-  // Fetch stats on login
+  // Fetch stats on login with automatic real-time sync every 15 seconds
   useEffect(() => {
     if (token) {
       fetchStats();
+      const interval = setInterval(() => {
+        // Only auto-fetch if we are not actively in the middle of a deletion or loading already
+        if (!isLoadingStats && !isDeletingId) {
+          fetchStats();
+        }
+      }, 15000);
+      return () => clearInterval(interval);
     }
-  }, [token]);
+  }, [token, isLoadingStats, isDeletingId]);
 
   // Download leads in CSV format
   const exportToCSV = () => {

@@ -791,24 +791,55 @@ export default function App() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="flex justify-center"
+          className="flex justify-center relative"
         >
+          {/* Animated background breathing rings (wave entrant/sortant) */}
+          <motion.div 
+            className="absolute inset-0 rounded-full bg-[#F27D26]/25 z-0 pointer-events-none"
+            animate={{
+              scale: [1, 1.4, 1],
+              opacity: [0.5, 0, 0.5]
+            }}
+            transition={{
+              duration: 2.5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          <motion.div 
+            className="absolute inset-0 rounded-full bg-[#D4AF37]/15 z-0 pointer-events-none"
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0, 0.3]
+            }}
+            transition={{
+              duration: 2.5,
+              delay: 0.5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+
           <motion.button
             onClick={handleWatchVideo}
             id="btn_watch_video_hero"
             animate={{ 
-              scale: [1, 1.03, 1],
-              rotate: [0, -12, 10, -12, 10, -8, 8, -4, 4, 0, 0]
+              scale: [1, 1.06, 1],
+              y: [0, -3, 0],
+              boxShadow: [
+                "0 10px 25px rgba(242,125,38,0.3)",
+                "0 15px 45px rgba(242,125,38,0.6)",
+                "0 10px 25px rgba(242,125,38,0.3)"
+              ]
             }}
             transition={{ 
               repeat: Infinity, 
-              duration: 2.2, 
-              ease: "easeInOut",
-              times: [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 1]
+              duration: 2.5, 
+              ease: "easeInOut"
             }}
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative px-6 py-3 bg-gradient-to-r from-[#D4AF37] to-[#F27D26] rounded-full flex items-center justify-center gap-3 text-black font-bold text-xs sm:text-sm md:text-base shadow-[0_10px_35px_rgba(242,125,38,0.4)] cursor-pointer transition-all duration-300"
+            className="group relative z-10 px-6 py-3 bg-gradient-to-r from-[#D4AF37] to-[#F27D26] rounded-full flex items-center justify-center gap-3 text-black font-bold text-xs sm:text-sm md:text-base shadow-[0_10px_35px_rgba(242,125,38,0.4)] cursor-pointer transition-all duration-300"
           >
             <span className="w-6 h-6 sm:w-7 sm:h-7 bg-black rounded-full flex items-center justify-center flex-shrink-0">
               <Play className="w-2.5 h-2.5 sm:w-3 text-[#F27D26] fill-[#F27D26] ml-0.5" />

@@ -78,6 +78,18 @@ CREATE POLICY "Allow public inserts" ON public.mz_visits FOR INSERT WITH CHECK (
 CREATE POLICY "Allow public inserts" ON public.mz_clicks FOR INSERT WITH CHECK (true);
 CREATE POLICY "Allow public inserts" ON public.mz_events FOR INSERT WITH CHECK (true);
 
+-- Drop existing public select policies if any
+DROP POLICY IF EXISTS "Allow public select" ON public.mz_leads;
+DROP POLICY IF EXISTS "Allow public select" ON public.mz_visits;
+DROP POLICY IF EXISTS "Allow public select" ON public.mz_clicks;
+DROP POLICY IF EXISTS "Allow public select" ON public.mz_events;
+
+-- Create Public Select policies so the static landing page can aggregate/query stats directly from client-side
+CREATE POLICY "Allow public select" ON public.mz_leads FOR SELECT USING (true);
+CREATE POLICY "Allow public select" ON public.mz_visits FOR SELECT USING (true);
+CREATE POLICY "Allow public select" ON public.mz_clicks FOR SELECT USING (true);
+CREATE POLICY "Allow public select" ON public.mz_events FOR SELECT USING (true);
+
 -- Create Admin Policies using service_role bypass for secure backend queries
 CREATE POLICY "Allow service_role full access" ON public.mz_leads FOR ALL TO service_role USING (true);
 CREATE POLICY "Allow service_role full access" ON public.mz_visits FOR ALL TO service_role USING (true);
