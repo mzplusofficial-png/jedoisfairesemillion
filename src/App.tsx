@@ -6,7 +6,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { apiClient } from "./lib/apiClient";
 import { motion, AnimatePresence } from "motion/react";
-import { CustomVideoPlayer } from "./components/CustomVideoPlayer";
 import { SalesPage, getPriceForCountry } from "./components/SalesPage";
 import AdminPanel from "./components/AdminPanel";
 import {
@@ -757,13 +756,13 @@ export default function App() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-          className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.15] mb-2.5 md:mb-5 text-white font-display"
+          className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-normal mb-3 md:mb-6 text-white font-display"
         >
           Génère jusqu'à <br className="hidden sm:inline" />
-          <span className="relative inline-block px-2 text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#F27D26] to-[#D4AF37] drop-shadow-[0_0_15px_rgba(242,125,38,0.3)] select-all">
-            1 000 000 FCFA
-          </span> <br className="sm:hidden" />
-          grâce à ce business.
+          <span className="relative inline-block px-3 py-1.5 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FFE082] via-[#F27D26] to-[#FFE082] drop-shadow-[0_0_20px_rgba(242,125,38,0.55)] select-all tracking-tighter my-2 leading-none">
+            1 000 000 FCFA par mois
+          </span> <br />
+          sans compétences, grâce à MZ+.
         </motion.h1>
 
         {/* Magnetic Subtitle with elegant Sophisticated Dark left border style */}
@@ -859,8 +858,8 @@ export default function App() {
             <span className="w-6 h-6 sm:w-7 sm:h-7 bg-black rounded-full flex items-center justify-center flex-shrink-0">
               <Play className="w-2.5 h-2.5 sm:w-3 text-[#F27D26] fill-[#F27D26] ml-0.5" />
             </span>
-            <span className="tracking-wide">Regarder la vidéo</span>
-            <ArrowRight className="w-4 h-4 text-black group-hover:translate-x-1.5 transition-transform" />
+            <span className="tracking-wide text-xs sm:text-sm font-black">Découvrez en 1 minute comment MZ+ va changer votre vie</span>
+            <ArrowRight className="w-4 h-4 text-black group-hover:translate-x-1.5 transition-transform shrink-0" />
           </motion.button>
         </motion.div>
 
@@ -886,128 +885,31 @@ export default function App() {
           </p>
         </div>
 
-        {/* Responsive layout: Beautifully centered vertical stack to fit both elements on screen simultaneously */}
-        <div className="w-full flex flex-col items-center justify-center space-y-4 mx-auto transition-all duration-500 ease-in-out max-w-sm">
+        {/* Responsive layout: Beautifully centered vertical stack to fit the 16:9 responsive video player */}
+        <div className="w-full flex flex-col items-center justify-center space-y-6 mx-auto transition-all duration-500 ease-in-out max-w-3xl">
           
-          {/* Re-established beautiful smartphone format video player wrapper */}
-          <div className="w-full transition-all duration-500 ease-in-out bg-black rounded-[32px] border-[6px] border-[#1a1a1a] shadow-[0_40px_80px_rgba(0,0,0,0.8),0_0_25px_rgba(212,175,55,0.15)] relative overflow-hidden group/phone ring-1 ring-white/10 aspect-[9/16] max-w-[310px] sm:max-w-[340px]">
-            
-            {/* Phone notch element - always visible for realistic premium device aesthetic */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-5 bg-black rounded-b-xl z-30 flex items-center justify-center border-b border-l border-r border-white/5">
-              <div className="w-2.5 h-2.5 rounded-full bg-zinc-900 border border-white/10" />
-              <div className="w-8 h-0.5 rounded-full bg-zinc-800 ml-2" />
-            </div>
-
-            {/* Video Cover / Custom Play Trigger */}
-            <AnimatePresence>
-              {!isPlaying && (
-                <motion.div 
-                  initial={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="absolute inset-0 z-20 bg-gradient-to-b from-zinc-950/95 via-black/95 to-zinc-950/95 flex flex-col items-center justify-between p-5 cursor-pointer"
-                  onClick={handleWatchVideo}
-                >
-                  {/* Micro header inside phone */}
-                  <div className="w-full pt-4 flex justify-between items-center text-[9px] text-gray-400 tracking-wider">
-                    <span className="flex items-center gap-1 text-white/50">
-                      <Users className="w-3 h-3 text-[#D4AF37]" />
-                      142 connectés
-                    </span>
-                    <span className="bg-[#D4AF37]/20 border border-[#D4AF37]/30 text-[#D4AF37] px-2 py-0.5 rounded text-[9px] font-bold font-display uppercase tracking-widest">
-                      LIVE MASTERCLASS
-                    </span>
-                  </div>
-
-                  {/* Central Play button */}
-                  <div className="flex flex-col items-center justify-center gap-4 py-6">
-                    <div className="w-18 h-18 rounded-full border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-xl group-hover/phone:scale-105 transition-all duration-300">
-                      <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center shadow-[0_0_18px_rgba(255,255,255,0.4)]">
-                        <Play className="w-5 h-5 text-[#F27D26] fill-[#F27D26] ml-1" />
-                      </div>
-                    </div>
-                    <div className="text-center px-1">
-                      <p className="text-xs font-black text-white uppercase tracking-wider mb-1 font-display leading-tight">
-                        CLIQUEZ POUR LANCER LA PRÉSENTATION
-                      </p>
-                      <p className="text-[10px] text-[#D4AF37] font-semibold flex items-center justify-center gap-1">
-                        <Clock className="w-3.5 h-3.5" /> 4 minutes chrono
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Micro benefits summary at bottom */}
-                  <div className="w-full bg-white/[0.02] border border-white/5 rounded-xl p-3 text-center">
-                    <p className="text-[9px] uppercase text-[#D4AF37] tracking-widest font-semibold mb-1.5">
-                      Découvrez dans cette vidéo :
-                    </p>
-                    <ul className="text-[10px] text-gray-300 text-left space-y-1 max-w-[190px] mx-auto leading-normal">
-                      <li className="flex items-center gap-1.5">
-                        <Check className="w-3 h-3 text-[#D4AF37] flex-shrink-0" />
-                        <span>Méthode 100K/semaine</span>
-                      </li>
-                      <li className="flex items-center gap-1.5">
-                        <Check className="w-3 h-3 text-[#D4AF37] flex-shrink-0" />
-                        <span>Système automatisé MZ+</span>
-                      </li>
-                      <li className="flex items-center gap-1.5">
-                        <Check className="w-3 h-3 text-[#D4AF37] flex-shrink-0" />
-                        <span>Preuves de gains réels</span>
-                      </li>
-                    </ul>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Embedded video player - always rendered to preload video instantly in the background */}
-            <div className="absolute inset-0 w-full h-full z-10 bg-black">
-              <CustomVideoPlayer
-                isPlaying={isPlaying}
-                onPlayStateChange={(playing) => {
-                  if (playing) {
-                    setTimerStarted(true);
-                  }
-                }}
-                onEnded={() => {
-                  setIsPlaying(false);
-                }}
-                onPlay={() => {
-                  const visitorId = getOrCreateVisitorId();
-                  apiClient.recordEvent({
-                    visitorId,
-                    eventType: "play_video",
-                    eventValue: 1
-                  }).catch(() => {});
-
-                  apiClient.recordClick({
-                    email: "visitor@chariow.shop",
-                    phone: "Visitor",
-                    source: "btn_player_play_video",
-                    visitorId
-                  }).catch(() => {});
-                }}
-                onProgress={(percent) => {
-                  const visitorId = getOrCreateVisitorId();
-                  apiClient.recordEvent({
-                    visitorId,
-                    eventType: "video_progress",
-                    eventValue: percent
-                  }).catch(() => {});
-                }}
-              />
-            </div>
+          {/* Classic YouTube 16:9 responsive layout inside premium card with deep shadow and subtle gold glow */}
+          <div className="w-full bg-zinc-950 rounded-2xl border border-white/10 shadow-[0_30px_70px_rgba(0,0,0,0.9),0_0_30px_rgba(212,175,55,0.12)] relative overflow-hidden group ring-1 ring-white/5 aspect-video">
+            <iframe 
+              className="absolute inset-0 w-full h-full"
+              src="https://www.youtube.com/embed/XVgD44YUZs0?si=wkICkLBOAepFnme_" 
+              title="YouTube video player" 
+              frameBorder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              referrerPolicy="strict-origin-when-cross-origin" 
+              allowFullScreen
+            ></iframe>
           </div>
 
           {/* Dynamic CTA Button (Matches screenshot exactly: capsules shape, sparkles left, chevron right) */}
           <div 
             ref={ctaSectionRef}
-            className="w-full max-w-[310px] sm:max-w-[340px] pt-1 relative z-20 text-center animate-fade-in"
+            className="w-full max-w-md pt-1 relative z-20 text-center animate-fade-in"
           >
-            {/* Explanatory text to let user know they must watch the video to unlock access */}
-            <div className="mb-2.5 text-[10px] font-bold tracking-wider text-[#D4AF37] uppercase flex items-center justify-center gap-1.5 bg-amber-500/5 py-1 px-3 rounded-full border border-amber-500/10">
+            {/* Explanatory text under the video */}
+            <div className="mb-3 text-[10px] font-bold tracking-wider text-[#D4AF37] uppercase flex items-center justify-center gap-1.5 bg-amber-500/5 py-1.5 px-4 rounded-full border border-amber-500/10">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
-              {isPlaying ? "🔴 LECTURE DE LA VIDÉO EN COURS..." : "🎬 APPUYEZ SUR LA VIDÉO CI-DESSUS POUR COMPRENDRE LE SYSTÈME"}
+              🎬 DÉCOUVREZ EN 1 MINUTE COMMENT MZ+ VA CHANGER VOTRE VIE
             </div>
 
             <div className="w-full relative">
@@ -1022,21 +924,24 @@ export default function App() {
                 initial={{ scale: 0.95 }}
                 animate={delayedMoveStarted ? {
                   scale: [1, 1.03, 1],
-                  rotate: [0, -12, 10, -12, 10, -8, 8, -4, 4, 0, 0],
-                  boxShadow: ["0 4px 15px rgba(242,125,38,0.25)", "0 4px 35px rgba(242,125,38,0.6)", "0 4px 15px rgba(242,125,38,0.25)"]
+                  rotate: [0, -0.5, 0.5, -0.5, 0.5, 0],
+                  boxShadow: [
+                    "0 10px 25px rgba(242,125,38,0.35)",
+                    "0 15px 45px rgba(242,125,38,0.6)",
+                    "0 10px 25px rgba(242,125,38,0.35)"
+                  ]
                 } : { 
                   scale: 1,
                   y: 0,
                   rotate: 0,
-                  boxShadow: "0 4px 15px rgba(242,125,38,0.2)"
+                  boxShadow: "0 10px 25px rgba(242,125,38,0.35)"
                 }}
                 transition={delayedMoveStarted ? { 
                   repeat: Infinity, 
-                  duration: 2.2, 
-                  ease: "easeInOut",
-                  times: [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 1]
+                  duration: 2.5, 
+                  ease: "easeInOut"
                 } : { duration: 0.3 }}
-                className="group relative w-full py-4.5 bg-gradient-to-r from-[#D4AF37] to-[#F27D26] hover:scale-[1.03] active:scale-[0.98] text-black font-extrabold text-xs sm:text-sm rounded-full cursor-pointer flex items-center justify-between px-6 transition-all duration-300 font-display"
+                className="group relative w-full py-4 bg-gradient-to-r from-[#D4AF37] to-[#F27D26] hover:scale-[1.03] active:scale-[0.98] text-black font-extrabold text-xs sm:text-sm rounded-full cursor-pointer flex items-center justify-between px-6 transition-all duration-300 font-display shadow-[0_10px_25px_rgba(242,125,38,0.35)]"
               >
                 <Sparkles className="w-4 h-4 text-black fill-black flex-shrink-0" />
                 <span className="tracking-wider uppercase font-black text-center flex-1">Je veux rejoindre MZ+</span>
@@ -1492,14 +1397,17 @@ export default function App() {
             initial={{ scale: 1 }}
             animate={{ 
               scale: [1, 1.03, 1],
-              rotate: [0, -12, 10, -12, 10, -8, 8, -4, 4, 0, 0],
-              boxShadow: ["0 4px 20px rgba(212,175,55,0.25)", "0 4px 35px rgba(212,175,55,0.6)", "0 4px 20px rgba(212,175,55,0.25)"]
+              rotate: [0, -0.5, 0.5, -0.5, 0.5, 0],
+              boxShadow: [
+                "0 4px 20px rgba(212,175,55,0.25)",
+                "0 8px 35px rgba(212,175,55,0.6)",
+                "0 4px 20px rgba(212,175,55,0.25)"
+              ]
             }}
             transition={{ 
               repeat: Infinity, 
-              duration: 2.2, 
-              ease: "easeInOut",
-              times: [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 1]
+              duration: 2.5, 
+              ease: "easeInOut"
             }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
