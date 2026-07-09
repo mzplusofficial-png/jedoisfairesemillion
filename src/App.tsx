@@ -35,6 +35,9 @@ import {
   Heart,
   Globe,
   Lock,
+  LockOpen,
+  BookOpen,
+  Coins,
   Zap,
   ArrowLeft
 } from "lucide-react";
@@ -737,26 +740,13 @@ export default function App() {
 
       {/* Main Hero & CRO Hook Section */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-5 md:pt-6 md:pb-12 text-center relative z-30">
-        
-        {/* Prestige Label */}
-        <motion.div 
-          initial={{ opacity: 0, y: -15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500/5 via-amber-500/10 to-amber-500/5 border border-amber-500/20 rounded-full px-3 py-1 md:px-4 md:py-1.5 mb-2.5 md:mb-5 shadow-sm"
-        >
-          <Sparkles className="w-3.5 h-3.5 text-[#D4AF37] animate-pulse" />
-          <span className="text-[10px] md:text-xs uppercase font-semibold tracking-widest text-[#D4AF37] font-display">
-            L'Élite de la Réussite Financière 
-          </span>
-        </motion.div>
 
         {/* Giant Main Conversion Hook */}
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-          className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-normal mb-3 md:mb-6 text-white font-display"
+          className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-normal mb-3 md:mb-6 text-white font-display animate-fade-in"
         >
           Génère jusqu'à <br className="hidden sm:inline" />
           <span className="relative inline-block px-3 py-1.5 text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#FFE082] via-[#F27D26] to-[#FFE082] drop-shadow-[0_0_20px_rgba(242,125,38,0.55)] select-all tracking-tighter my-2 leading-none">
@@ -766,37 +756,64 @@ export default function App() {
         </motion.h1>
 
         {/* Magnetic Subtitle with elegant Sophisticated Dark left border style */}
-        <div className="max-w-2xl mx-auto mb-3 md:mb-6 pl-4 md:pl-6 border-l-2 border-[#D4AF37]">
+        <div className="max-w-2xl mx-auto mb-5 pl-4 md:pl-6 border-l-2 border-[#D4AF37] text-left">
           <motion.p 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-left text-xs sm:text-sm md:text-base text-white/70 font-light leading-relaxed"
+            className="text-xs sm:text-sm md:text-base text-white/70 font-light leading-relaxed"
           >
-            L'opportunité conçue pour créer les <span className="text-white font-medium italic">futurs millionnaires</span> de cette génération. Regardez la présentation confidentielle ci-dessous.
+            L'opportunité conçue pour créer les <span className="text-white font-medium italic">futurs millionnaires</span> de cette génération. Regardez la présentation confidentielle d'une minute ci-dessous :
           </motion.p>
         </div>
 
-        {/* Responsive Objections micro-trust blocks */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.3 }}
-          className="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 mb-4 md:mb-8 text-[10px] sm:text-xs text-gray-400"
+        {/* Vos Bénéfices Section - Gamified Compact Badges without descriptions */}
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.25 }}
+          className="max-w-3xl mx-auto mt-2 mb-6 text-center" 
+          id="section_benefits"
         >
-          <div className="flex items-center gap-1">
-            <Check className="w-3.5 h-3.5 text-[#D4AF37]" />
-            <span>Aucune compétence requise</span>
-          </div>
-          <div className="w-1 h-1 rounded-full bg-amber-550/50 hidden sm:block" />
-          <div className="flex items-center gap-1">
-            <Check className="w-3.5 h-3.5 text-[#D4AF37]" />
-            <span>100% faisable sur mobile</span>
-          </div>
-          <div className="w-1 h-1 rounded-full bg-amber-550/50 hidden sm:block" />
-          <div className="flex items-center gap-1">
-            <Check className="w-3.5 h-3.5 text-[#D4AF37]" />
-            <span>Accompagnement VIP</span>
+          <div className="flex flex-wrap justify-center items-center gap-2.5 sm:gap-3">
+            {/* Benefit Badge 1 */}
+            <motion.div 
+              whileHover={{ scale: 1.05, y: -2 }}
+              className="bg-zinc-950/70 backdrop-blur-md border border-[#D4AF37]/35 rounded-full px-3.5 py-1.5 flex items-center gap-2 transition-all duration-300 shadow-[0_0_15px_rgba(212,175,55,0.08)] hover:border-[#D4AF37] hover:shadow-[0_0_20px_rgba(212,175,55,0.18)]"
+            >
+              <div className="w-5 h-5 rounded-full bg-[#D4AF37]/20 flex items-center justify-center flex-shrink-0 text-[#FFE082]">
+                <CheckCircle2 className="w-3.5 h-3.5" />
+              </div>
+              <span className="text-[10px] sm:text-xs font-black text-white uppercase tracking-wider font-display">
+                Aucune compétence requise
+              </span>
+            </motion.div>
+
+            {/* Benefit Badge 2 */}
+            <motion.div 
+              whileHover={{ scale: 1.05, y: -2 }}
+              className="bg-zinc-950/70 backdrop-blur-md border border-[#D4AF37]/35 rounded-full px-3.5 py-1.5 flex items-center gap-2 transition-all duration-300 shadow-[0_0_15px_rgba(212,175,55,0.08)] hover:border-[#D4AF37] hover:shadow-[0_0_20px_rgba(212,175,55,0.18)]"
+            >
+              <div className="w-5 h-5 rounded-full bg-[#D4AF37]/20 flex items-center justify-center flex-shrink-0 text-[#FFE082]">
+                <Smartphone className="w-3.5 h-3.5" />
+              </div>
+              <span className="text-[10px] sm:text-xs font-black text-white uppercase tracking-wider font-display">
+                100 % mobile
+              </span>
+            </motion.div>
+
+            {/* Benefit Badge 3 */}
+            <motion.div 
+              whileHover={{ scale: 1.05, y: -2 }}
+              className="bg-zinc-950/70 backdrop-blur-md border border-[#D4AF37]/35 rounded-full px-3.5 py-1.5 flex items-center gap-2 transition-all duration-300 shadow-[0_0_15px_rgba(212,175,55,0.08)] hover:border-[#D4AF37] hover:shadow-[0_0_20px_rgba(212,175,55,0.18)]"
+            >
+              <div className="w-5 h-5 rounded-full bg-[#D4AF37]/20 flex items-center justify-center flex-shrink-0 text-[#FFE082]">
+                <Users className="w-3.5 h-3.5" />
+              </div>
+              <span className="text-[10px] sm:text-xs font-black text-white uppercase tracking-wider font-display">
+                Accompagnement VIP
+              </span>
+            </motion.div>
           </div>
         </motion.div>
 
@@ -914,12 +931,7 @@ export default function App() {
 
             <div className="w-full relative">
               <motion.button
-                onClick={() => {
-                  const targetEl = document.getElementById("section_benefits");
-                  if (targetEl) {
-                    targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
-                  }
-                }}
+                onClick={() => openRegistrationModal("btn_cta_video_signup")}
                 id="btn_rejoindre_mz_cta"
                 initial={{ scale: 0.95 }}
                 animate={delayedMoveStarted ? {
@@ -941,15 +953,166 @@ export default function App() {
                   duration: 2.5, 
                   ease: "easeInOut"
                 } : { duration: 0.3 }}
-                className="group relative w-full py-4 bg-gradient-to-r from-[#D4AF37] to-[#F27D26] hover:scale-[1.03] active:scale-[0.98] text-black font-extrabold text-xs sm:text-sm rounded-full cursor-pointer flex items-center justify-between px-6 transition-all duration-300 font-display shadow-[0_10px_25px_rgba(242,125,38,0.35)]"
+                className="group relative w-full py-4.5 bg-gradient-to-r from-[#D4AF37] to-[#F27D26] hover:scale-[1.03] active:scale-[0.98] text-black font-extrabold text-xs sm:text-sm rounded-full cursor-pointer flex items-center justify-between px-6 transition-all duration-300 font-display shadow-[0_10px_25px_rgba(242,125,38,0.35)]"
               >
-                <Sparkles className="w-4 h-4 text-black fill-black flex-shrink-0" />
-                <span className="tracking-wider uppercase font-black text-center flex-1">Je veux rejoindre MZ+</span>
+                <Sparkles className="w-4 h-4 text-black fill-black flex-shrink-0 animate-pulse" />
+                <span className="tracking-widest uppercase font-black text-center flex-1 text-xs sm:text-sm">Activer mon accès MZ+ & commencer à gagner ⚡</span>
                 <ChevronRight className="w-4.5 h-4.5 text-black stroke-[3.5] group-hover:translate-x-1 transition-transform flex-shrink-0" />
               </motion.button>
             </div>
           </div>
 
+        </div>
+      </section>
+
+      {/* 🚀 New Gamified Roadmap Section: Your Path to Success in 3 Simple Steps */}
+      <section id="section_roadmap" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 text-center relative z-30 border-t border-white/5">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-8"
+        >
+          <div className="inline-flex items-center gap-1.5 bg-amber-500/5 border border-amber-500/20 rounded-full px-3 py-1 mb-3">
+            <Rocket className="w-3 h-3 text-[#D4AF37]" />
+            <span className="text-[9px] uppercase font-bold tracking-widest text-[#D4AF37]">
+              MÉTHODE SIMPLIFIÉE
+            </span>
+          </div>
+          <h2 className="text-lg sm:text-2xl md:text-3xl font-black tracking-tight text-white font-display mb-2">
+            🚀 Votre chemin vers le succès en 3 étapes simples
+          </h2>
+          <p className="max-w-2xl mx-auto text-[11px] sm:text-xs text-white/60 font-light leading-relaxed">
+            Nous avons simplifié la création de revenus en ligne. Suivez notre méthode étape par étape et commencez à développer votre activité avec MZ+.
+          </p>
+        </motion.div>
+
+        {/* Steps Grid */}
+        <div className="relative max-w-3xl mx-auto mb-8">
+          {/* Horizontal connecting line for Desktop */}
+          <div className="hidden md:block absolute top-[44px] left-[15%] right-[15%] h-[2px] bg-gradient-to-r from-[#D4AF37]/20 via-[#F27D26]/30 to-[#D4AF37]/20 z-0" />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 relative z-10 text-left md:text-center">
+            {/* Step 1 */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              whileHover={{ y: -3, scale: 1.01 }}
+              className="bg-zinc-950/40 backdrop-blur-md border border-white/5 hover:border-[#D4AF37]/30 rounded-2xl p-4.5 transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.3)] group flex flex-row md:flex-col items-center md:items-center text-left md:text-center gap-3.5"
+            >
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500/10 to-[#F27D26]/10 border border-[#D4AF37]/35 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(212,175,55,0.05)] group-hover:border-[#D4AF37] transition-all">
+                <LockOpen className="w-5 h-5 text-[#FFE082]" />
+              </div>
+              <div>
+                <span className="inline-block text-[8px] font-black uppercase tracking-widest text-[#D4AF37] bg-[#D4AF37]/10 px-2 py-0.5 rounded mb-1 font-display">
+                  Étape 1
+                </span>
+                <h3 className="text-xs sm:text-sm font-black text-white mb-1 tracking-wide">
+                  🔓 Accédez à votre espace MZ+
+                </h3>
+                <p className="text-[10px] sm:text-[11px] text-gray-400 leading-normal font-light">
+                  Inscrivez-vous en quelques clics et obtenez immédiatement l'accès à votre espace membre ainsi qu'à toutes les ressources disponibles.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Mobile-only connector */}
+            <div className="flex justify-center md:hidden my-0.5">
+              <ChevronDown className="w-4 h-4 text-[#D4AF37] animate-pulse" />
+            </div>
+
+            {/* Step 2 */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              whileHover={{ y: -3, scale: 1.01 }}
+              className="bg-zinc-950/40 backdrop-blur-md border border-white/5 hover:border-[#D4AF37]/30 rounded-2xl p-4.5 transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.3)] group flex flex-row md:flex-col items-center md:items-center text-left md:text-center gap-3.5"
+            >
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500/10 to-[#F27D26]/10 border border-[#D4AF37]/35 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(212,175,55,0.05)] group-hover:border-[#D4AF37] transition-all">
+                <BookOpen className="w-5 h-5 text-[#FFE082]" />
+              </div>
+              <div>
+                <span className="inline-block text-[8px] font-black uppercase tracking-widest text-[#D4AF37] bg-[#D4AF37]/10 px-2 py-0.5 rounded mb-1 font-display">
+                  Étape 2
+                </span>
+                <h3 className="text-xs sm:text-sm font-black text-white mb-1 tracking-wide">
+                  🎓 Formez-vous et passez à l'action
+                </h3>
+                <p className="text-[10px] sm:text-[11px] text-gray-400 leading-normal font-light">
+                  Suivez nos formations pas à pas pour acquérir les compétences nécessaires afin de générer vos premiers revenus en ligne.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Mobile-only connector */}
+            <div className="flex justify-center md:hidden my-0.5">
+              <ChevronDown className="w-4 h-4 text-[#D4AF37] animate-pulse" />
+            </div>
+
+            {/* Step 3 */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              whileHover={{ y: -3, scale: 1.01 }}
+              className="bg-zinc-950/40 backdrop-blur-md border border-white/5 hover:border-[#D4AF37]/30 rounded-2xl p-4.5 transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.3)] group flex flex-row md:flex-col items-center md:items-center text-left md:text-center gap-3.5"
+            >
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500/10 to-[#F27D26]/10 border border-[#D4AF37]/35 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(212,175,55,0.05)] group-hover:border-[#D4AF37] transition-all">
+                <Coins className="w-5 h-5 text-[#FFE082]" />
+              </div>
+              <div>
+                <span className="inline-block text-[8px] font-black uppercase tracking-widest text-[#D4AF37] bg-[#D4AF37]/10 px-2 py-0.5 rounded mb-1 font-display">
+                  Étape 3
+                </span>
+                <h3 className="text-xs sm:text-sm font-black text-white mb-1 tracking-wide">
+                  💰 Générez vos premiers revenus
+                </h3>
+                <p className="text-[10px] sm:text-[11px] text-gray-400 leading-normal font-light">
+                  Appliquez les méthodes enseignées, profitez de notre accompagnement et développez progressivement vos revenus grâce au système MZ+.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Primary CTA button under the roadmap */}
+        <div className="w-full max-w-xl mx-auto pt-2">
+          <motion.button
+            onClick={() => openRegistrationModal("btn_cta_steps_signup")}
+            initial={{ scale: 0.95 }}
+            animate={delayedMoveStarted ? {
+              scale: [1, 1.03, 1],
+              rotate: [0, -0.5, 0.5, -0.5, 0.5, 0],
+              boxShadow: [
+                "0 10px 25px rgba(242,125,38,0.35)",
+                "0 15px 45px rgba(242,125,38,0.6)",
+                "0 10px 25px rgba(242,125,38,0.35)"
+              ]
+            } : { 
+              scale: 1,
+              y: 0,
+              rotate: 0,
+              boxShadow: "0 10px 25px rgba(242,125,38,0.35)"
+            }}
+            transition={delayedMoveStarted ? { 
+              repeat: Infinity, 
+              duration: 2.5, 
+              ease: "easeInOut"
+            } : { duration: 0.3 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            className="group relative w-full py-4 bg-gradient-to-r from-[#D4AF37] to-[#F27D26] hover:scale-[1.03] active:scale-[0.98] text-black font-extrabold text-xs sm:text-sm rounded-full cursor-pointer flex items-center justify-between px-6 transition-all duration-300 font-display shadow-[0_10px_25px_rgba(242,125,38,0.35)]"
+          >
+            <Sparkles className="w-4 h-4 text-black fill-black flex-shrink-0 animate-pulse" />
+            <span className="tracking-widest uppercase font-black text-center flex-1 text-xs sm:text-sm leading-tight">🚀 JE COMMENCE MON AVENTURE MZ+ DÈS AUJOURD'HUI</span>
+            <ChevronRight className="w-4.5 h-4.5 text-black stroke-[3.5] group-hover:translate-x-1 transition-transform flex-shrink-0" />
+          </motion.button>
         </div>
       </section>
 
