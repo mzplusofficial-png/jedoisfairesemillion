@@ -288,8 +288,8 @@ export default function App() {
   const [currentToast, setCurrentToast] = useState<typeof LIVE_NOTIFICATIONS[0] | null>(null);
   const [toastVisible, setToastVisible] = useState(false);
 
-  // Fake remaining seats (highly effective CRO trigger)
-  const [remainingSeats, setRemainingSeats] = useState(7);
+  // Fake remaining seats (highly effective CRO trigger, frozen at 5)
+  const [remainingSeats] = useState(5);
   const [activeViewers, setActiveViewers] = useState(142);
 
   // Countdown Timer states for CTA
@@ -305,7 +305,7 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Pricing urgency countdown timer
+  // Pricing urgency countdown timer (ends daily at 20:00 GMT+1, which is 19:00 UTC)
   const [timeLeft, setTimeLeft] = useState<{
     days: number;
     hours: number;
@@ -316,18 +316,31 @@ export default function App() {
 
   useEffect(() => {
     const calculateTimeLeft = () => {
-      // Expiration Sunday, July 12, 2026, at 23:00 (11:00 PM)
-      const targetDate = new Date("2026-07-12T23:00:00");
-      const difference = +targetDate - +new Date();
+      const now = new Date();
+      
+      // Target is today at 19:00:00 UTC (which is exactly 20:00:00 GMT+1)
+      const targetDate = new Date(Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate(),
+        19, 0, 0, 0
+      ));
+      
+      // If we are already past 19:00 UTC today, count down to tomorrow's 19:00 UTC
+      if (now.getTime() >= targetDate.getTime()) {
+        targetDate.setUTCDate(targetDate.getUTCDate() + 1);
+      }
+      
+      const difference = targetDate.getTime() - now.getTime();
       
       if (difference <= 0) {
         return { days: 0, hours: 0, minutes: 0, seconds: 0, isExpired: true };
       }
 
       return {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
+        days: 0,
+        hours: Math.floor(difference / (1000 * 60 * 60)),
+        minutes: Math.floor((difference / (1000 * 60)) % 60),
         seconds: Math.floor((difference / 1000) % 60),
         isExpired: false
       };
@@ -342,18 +355,13 @@ export default function App() {
     return () => clearInterval(timer);
   }, []);
 
-  // Randomize viewers and seats occasionally
+  // Randomize viewers occasionally (seats frozen at 5 for strategic conversion)
   useEffect(() => {
-    const seatInterval = setInterval(() => {
-      setRemainingSeats((prev) => (prev > 3 ? prev - 1 : prev));
-    }, 45000);
-
     const viewerInterval = setInterval(() => {
       setActiveViewers((prev) => prev + Math.floor(Math.random() * 9) - 4);
     }, 5000);
 
     return () => {
-      clearInterval(seatInterval);
       clearInterval(viewerInterval);
     };
   }, []);
@@ -710,12 +718,31 @@ export default function App() {
       <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-[#F27D26] opacity-10 blur-[120px] rounded-full pointer-events-none ambient-glow-orange" />
       <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-[#1E3A8A] opacity-10 blur-[100px] rounded-full pointer-events-none ambient-glow-blue" />
 
-      {/* Top Luxury Exclusivity Ribbon */}
-      <div className="w-full bg-gradient-to-r from-amber-950/40 via-black to-amber-950/40 border-b border-white/5 backdrop-blur-md py-2.5 px-4 text-center text-[10px] sm:text-xs tracking-wider uppercase font-semibold flex justify-center items-center gap-2 relative z-50 text-white/70">
-        <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse"></span>
-        <span>Accès VIP Restreint :</span> 
-        <span className="text-[#D4AF37] font-bold">{remainingSeats} places disponibles aujourd'hui</span>
-        <span className="hidden md:inline text-white/40 font-normal">| {activeViewers} personnes analysent cette opportunité</span>
+      {/* Top Luxury Exclusivity Ribbon - Highly visible & highlighted */}
+      <div className="w-full bg-gradient-to-r from-red-950 via-zinc-950 to-red-950 border-b-2 border-[#D4AF37] shadow-[0_4px_30px_rgba(212,175,55,0.15)] py-3 px-4 text-center text-xs sm:text-sm tracking-wider uppercase font-semibold flex flex-wrap justify-center items-center gap-x-3 gap-y-2 relative z-50 text-white/90">
+        <div className="flex items-center gap-2">
+          <span className="flex h-2 w-2 relative">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+          </span>
+          <span className="text-red-400 font-extrabold tracking-wide">🚨 Fermeture des inscriptions dans :</span>
+        </div>
+        
+        {/* Glowing Gold Countdown Timer badge */}
+        <span className="text-black font-extrabold font-mono tracking-widest bg-gradient-to-r from-[#D4AF37] to-[#FFE082] px-3.5 py-1 rounded-md border border-[#D4AF37] shadow-[0_0_15px_rgba(212,175,55,0.45)] text-xs sm:text-sm animate-pulse mx-1.5 flex items-center gap-1.5">
+          <span className="font-black">{String(timeLeft.hours).padStart(2, '0')}H</span>
+          <span className="opacity-40 font-bold">:</span>
+          <span className="font-black">{String(timeLeft.minutes).padStart(2, '0')}M</span>
+          <span className="opacity-40 font-bold">:</span>
+          <span className="font-black">{String(timeLeft.seconds).padStart(2, '0')}S</span>
+        </span>
+
+        <span className="text-white/30 hidden sm:inline">|</span>
+
+        {/* Hot remaining spots badge */}
+        <span className="font-black text-white text-[11px] sm:text-xs bg-red-600/90 px-3 py-1 rounded-md border border-red-500 shadow-[0_0_10px_rgba(220,38,38,0.3)] animate-pulse">
+          🔥 {remainingSeats} PLACES VIP RESTANTES
+        </span>
       </div>
 
       {/* Sleek Premium Navigation */}
@@ -927,6 +954,49 @@ export default function App() {
             <div className="mb-3 text-[10px] font-bold tracking-wider text-[#D4AF37] uppercase flex items-center justify-center gap-1.5 bg-amber-500/5 py-1.5 px-4 rounded-full border border-amber-500/10">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
               🎬 DÉCOUVREZ EN 1 MINUTE COMMENT MZ+ VA CHANGER VOTRE VIE
+            </div>
+
+            {/* Highly strategic & visually stunning countdown widget */}
+            <div className="mb-4 bg-gradient-to-b from-red-950/25 via-zinc-950/90 to-black border border-red-500/40 rounded-2xl p-4.5 shadow-[0_15px_35px_rgba(239,68,68,0.15),0_0_20px_rgba(212,175,55,0.08)] relative overflow-hidden text-center">
+              <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-red-500 to-transparent animate-pulse" />
+              
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <span className="flex h-2.5 w-2.5 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+                </span>
+                <span className="text-xs sm:text-sm font-black tracking-widest text-red-500 uppercase font-display">
+                  🚨 Fermeture des inscriptions dans :
+                </span>
+              </div>
+              
+              {/* Gamified Ticking Countdown Elements - Extremely Visible & Premium */}
+              <div className="flex items-center justify-center gap-3 max-w-[260px] mx-auto bg-black/80 border border-white/10 rounded-xl py-2 px-4 shadow-inner mb-3">
+                <div className="text-center min-w-[42px]">
+                  <span className="block text-2xl font-black font-mono text-white tracking-tight leading-none">
+                    {String(timeLeft.hours).padStart(2, '0')}
+                  </span>
+                  <span className="text-[8px] text-amber-500 font-extrabold uppercase tracking-wider">Heures</span>
+                </div>
+                <span className="text-red-500/70 font-black text-xl animate-pulse">:</span>
+                <div className="text-center min-w-[42px]">
+                  <span className="block text-2xl font-black font-mono text-[#D4AF37] tracking-tight leading-none">
+                    {String(timeLeft.minutes).padStart(2, '0')}
+                  </span>
+                  <span className="text-[8px] text-[#D4AF37] font-extrabold uppercase tracking-wider">Min</span>
+                </div>
+                <span className="text-red-500/70 font-black text-xl animate-pulse">:</span>
+                <div className="text-center min-w-[42px]">
+                  <span className="block text-2xl font-black font-mono text-white tracking-tight leading-none">
+                    {String(timeLeft.seconds).padStart(2, '0')}
+                  </span>
+                  <span className="text-[8px] text-amber-500 font-extrabold uppercase tracking-wider">Sec</span>
+                </div>
+              </div>
+
+              <p className="text-[10px] sm:text-[11px] text-white/80 leading-relaxed max-w-sm mx-auto font-medium">
+                Passé ce délai, l'accès à vie <span className="text-[#D4AF37] font-bold">MZ+ VIP</span> sera définitivement suspendu.
+              </p>
             </div>
 
             <div className="w-full relative">
@@ -1371,29 +1441,23 @@ export default function App() {
             Rejoignez instantanément MZ+ et débloquez votre accompagnement, vos formations et votre système clé en main. Pas d'abonnement, pas de frais cachés.
           </p>
 
-          {/* Countdown Timer Grid */}
-          <div className="grid grid-cols-4 gap-2 max-w-xs mx-auto mb-6">
+          {/* Countdown Timer Grid - Unified 20h00 GMT+1 Ticking Scarcity */}
+          <div className="grid grid-cols-3 gap-2.5 max-w-[240px] mx-auto mb-6">
             <div className="bg-black/50 border border-white/10 rounded-xl py-2 px-1 text-center">
-              <span className="block text-base sm:text-lg font-black font-display text-white leading-none">
-                {timeLeft.isExpired ? "0" : timeLeft.days}
-              </span>
-              <span className="text-[9px] text-amber-500 uppercase font-bold tracking-wider">Jours</span>
-            </div>
-            <div className="bg-black/50 border border-white/10 rounded-xl py-2 px-1 text-center">
-              <span className="block text-base sm:text-lg font-black font-display text-white leading-none">
-                {timeLeft.isExpired ? "0" : timeLeft.hours}
+              <span className="block text-base sm:text-lg font-black font-mono text-white leading-none">
+                {timeLeft.isExpired ? "00" : String(timeLeft.hours).padStart(2, '0')}
               </span>
               <span className="text-[9px] text-amber-500 uppercase font-bold tracking-wider">Heures</span>
             </div>
-            <div className="bg-black/50 border border-white/10 rounded-xl py-2 px-1 text-center">
-              <span className="block text-base sm:text-lg font-black font-display text-white leading-none">
-                {timeLeft.isExpired ? "0" : timeLeft.minutes}
+            <div className="bg-black/50 border border-[#D4AF37]/30 rounded-xl py-2 px-1 text-center relative overflow-hidden">
+              <span className="block text-base sm:text-lg font-black font-mono text-white leading-none animate-pulse">
+                {timeLeft.isExpired ? "00" : String(timeLeft.minutes).padStart(2, '0')}
               </span>
-              <span className="text-[9px] text-amber-500 uppercase font-bold tracking-wider">Min</span>
+              <span className="text-[9px] text-[#D4AF37] uppercase font-bold tracking-wider">Min</span>
             </div>
             <div className="bg-black/50 border border-white/10 rounded-xl py-2 px-1 text-center">
-              <span className="block text-base sm:text-lg font-black font-display text-white leading-none">
-                {timeLeft.isExpired ? "0" : timeLeft.seconds}
+              <span className="block text-base sm:text-lg font-black font-mono text-white leading-none">
+                {timeLeft.isExpired ? "00" : String(timeLeft.seconds).padStart(2, '0')}
               </span>
               <span className="text-[9px] text-amber-500 uppercase font-bold tracking-wider">Sec</span>
             </div>
